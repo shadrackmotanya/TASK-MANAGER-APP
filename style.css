@@ -2,64 +2,103 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: "Poppins", Arial, sans-serif;
 }
 
 body {
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: white;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1c1c1c);
+    background-size: 400% 400%;
+    animation: bgFlow 12s ease infinite;
+
+    color: white;
 }
 
-/* Main Container */
+/* Animated background */
+@keyframes bgFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Container */
 .container {
-    background: rgba(255, 255, 255, 0.05);
+    width: 370px;
     padding: 25px;
-    border-radius: 12px;
-    width: 350px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
     text-align: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* Title */
 h1 {
+    font-size: 28px;
     margin-bottom: 5px;
+    letter-spacing: 1px;
 }
 
 .subtitle {
-    font-size: 30px;
-    margin-bottom: 15px;
+    font-size: 14px;
     opacity: 0.8;
+    margin-bottom: 18px;
 }
 
-/* Input Section */
+/* Input section */
 .input-section {
     display: flex;
     gap: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .input-section input {
     flex: 1;
-    padding: 8px;
-    border-radius: 6px;
+    padding: 10px;
+
+    border-radius: 8px;
     border: none;
     outline: none;
+
+    background: rgba(255,255,255,0.15);
+    color: white;
+
+    transition: 0.3s;
 }
 
+.input-section input:focus {
+    background: rgba(255,255,255,0.25);
+}
+
+.input-section input::placeholder {
+    color: rgba(255,255,255,0.6);
+}
+
+/* Add button */
 .input-section button {
-    padding: 8px 12px;
+    padding: 10px 14px;
     border: none;
-    background: #00c6ff;
+    border-radius: 8px;
+
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
     color: white;
-    border-radius: 6px;
+
     cursor: pointer;
+    transition: 0.3s;
 }
 
 .input-section button:hover {
-    background: #0072ff;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0,198,255,0.6);
 }
 
 /* Filters */
@@ -68,55 +107,76 @@ h1 {
 }
 
 .filters button {
-    margin: 3px;
-    padding: 6px 10px;
+    margin: 4px;
+    padding: 7px 12px;
+
     border: none;
-    border-radius: 5px;
-    background: #444;
+    border-radius: 6px;
+
+    background: rgba(255,255,255,0.1);
     color: white;
+
     cursor: pointer;
+    transition: 0.3s;
 }
 
 .filters button:hover {
     background: #00c6ff;
+    transform: translateY(-2px);
 }
 
-/* Task List */
+/* Task list */
 ul {
     list-style: none;
 }
 
 li {
-    background: rgba(255,255,255,0.1);
-    margin: 8px 0;
-    padding: 10px;
-    border-radius: 6px;
+    background: rgba(255,255,255,0.08);
+    margin: 10px 0;
+    padding: 12px;
+
+    border-radius: 10px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    transition: 0.3s;
 }
 
-/* Completed Task */
+li:hover {
+    transform: scale(1.02);
+    background: rgba(255,255,255,0.12);
+}
+
+/* Completed */
 .completed {
     text-decoration: line-through;
-    opacity: 0.6;
+    opacity: 0.5;
 }
 
-/* Buttons inside task */
+/* Task buttons */
 .task-buttons button {
     margin-left: 5px;
     border: none;
-    padding: 5px 7px;
-    border-radius: 4px;
+    padding: 6px 8px;
+    border-radius: 6px;
+
     cursor: pointer;
+    transition: 0.3s;
 }
 
 .complete-btn {
-    background: green;
+    background: #00c853;
     color: white;
 }
 
 .delete-btn {
-    background: red;
+    background: #ff1744;
     color: white;
+}
+
+.task-buttons button:hover {
+    transform: scale(1.15);
+    filter: brightness(1.2);
 }

@@ -10,25 +10,46 @@
 
 <body>
 
-    <div class="container">
-        <h1 class="subtitle">Task Manager</h1>
+    <main class="container">
+
+        <header>
+            <h1>Task Manager</h1>
+            <p class="subtitle">Organize your tasks, track progress, and stay productive 📌</p>
+        </header>
 
         <!-- Input Section -->
-        <div class="input-section">
-            <input type="text" id="taskInput" placeholder="Enter a new task...">
-            <button onclick="addTask()">Add</button>
-        </div>
+        <section class="input-section">
+            <input 
+                type="text" 
+                id="taskInput" 
+                placeholder="e.g. Complete JavaScript project..."
+                aria-label="Task input"
+            >
+            <button onclick="addTask()">Add Task</button>
+        </section>
+
 
         <!-- Filter Buttons -->
-        <div class="filters">
-            <button onclick="filterTasks('all')">All</button>
+        <section class="filters">
+            <button onclick="filterTasks('all')">All Tasks</button>
             <button onclick="filterTasks('completed')">Completed</button>
             <button onclick="filterTasks('pending')">Pending</button>
-        </div>
+        </section>
+
+        <section class="task-info">
+            <p>Click ✔ to complete • ✎ to edit • ✖ to delete</p>
+        </section>
 
         <!-- Task List -->
-        <ul id="taskList"></ul>
-    </div>
+        <section>
+            <ul id="taskList"></ul>
+        </section>
+
+        <footer>
+            <small>Built by Motanya</small>
+        </footer>
+
+    </main>
 
     <script src="script.js"></script>
 </body>

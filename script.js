@@ -1,72 +1,97 @@
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+let currentFilter = "all";
 
-// Render tasks on page
-function renderTasks(filter = "all") {
-    const taskList = document.getElementById("taskList");
-    taskList.innerHTML = "";
-
-    let filteredTasks = tasks.filter(task => {
-        if (filter === "completed") return task.completed;
-        if (filter === "pending") return !task.completed;
-        return true;
-    });
-
-    filteredTasks.forEach((task, index) => {
-        let li = document.createElement("li");
-
-        li.innerHTML = `
-            <span class="${task.completed ? 'completed' : ''}">
-                ${task.text}
-            </span>
-
-            <div class="task-buttons">
-                <button class="complete-btn" onclick="toggleTask(${index})">✔</button>
-                <button class="delete-btn" onclick="deleteTask(${index})">✖</button>
-            </div>
-        `;
-
-        taskList.appendChild(li);
-    });
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks(currentFilter);
 }
 
-// Add task
+function renderTasks(filter = "all") {
+    currentFilter = filter;
+
+    const list = document.getElementById("taskList");
+    list.innerHTML = "";
+
+    tasks
+        .filter(t =>
+            filter === "completed" ? t.completed :
+            filter === "pending" ? !t.completed : true
+        )
+        .forEach(task => {
+            const li = document.createElement("li");
+
+            li.innerHTML = `
+                <span class="${task.completed ? "completed" : ""}">
+                    ${task.text}
+                </span>
+
+                <small>${task.createdAt ? new Date(task.createdAt).toLocaleString() : ""}</small>
+
+                <div class="task-buttons">
+                    <button data-action="toggle" data-id="${task.id}">✔</button>
+                    <button data-action="edit" data-id="${task.id}">✎</button>
+                    <button data-action="delete" data-id="${task.id}">✖</button>
+                </div>
+            `;
+
+            list.appendChild(li);
+        });
+}
+
 function addTask() {
     const input = document.getElementById("taskInput");
     const text = input.value.trim();
-
-    if (text === "") return;
+    if (!text) return;
 
     tasks.push({
-        text: text,
-        completed: false
+        id: crypto.randomUUID(),
+        text,
+        completed: false,
+        createdAt: Date.now()
     });
 
     input.value = "";
     saveTasks();
 }
 
-// Toggle complete
-function toggleTask(index) {
-    tasks[index].completed = !tasks[index].completed;
+function toggleTask(id) {
+    const t = tasks.find(t => t.id === id);
+    if (t) t.completed = !t.completed;
     saveTasks();
 }
 
-// Delete task
-function deleteTask(index) {
-    tasks.splice(index, 1);
+function deleteTask(id) {
+    tasks = tasks.filter(t => t.id !== id);
     saveTasks();
 }
 
-// Save to localStorage
-function saveTasks() {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    renderTasks();
+function editTask(id) {
+    const t = tasks.find(t => t.id === id);
+    if (!t) return;
+
+    const val = prompt("Edit task:", t.text);
+    if (val !== null) t.text = val.trim() || t.text;
+
+    saveTasks();
 }
 
-// Filter tasks
+document.getElementById("taskList").addEventListener("click", e => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+
+    const { action, id } = btn.dataset;
+
+    if (action === "toggle") toggleTask(id);
+    if (action === "delete") deleteTask(id);
+    if (action === "edit") editTask(id);
+});
+
+document.getElementById("taskInput").addEventListener("keydown", e => {
+    if (e.key === "Enter") addTask();
+});
+
 function filterTasks(type) {
     renderTasks(type);
 }
 
-// Initial load
 renderTasks();
