@@ -95,3 +95,5 @@ function filterTasks(type) {
 }
 
 renderTasks();
+
+localStorage.clear(); // Clear localStorage for testing purposes
